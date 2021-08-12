@@ -8,12 +8,12 @@ jobs:
     steps:
       - name: Build fonts
       - run: |
-        curl -s https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest | grep "browser_download_url.*zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
-        unzip $(ls)
-        cd fonts
-        mkdir out
-        docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c
-        zip -r JetBrainsMono-Nerdfont-$GITHUB_REF.zip out
+          curl -s https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest | grep "browser_download_url.*zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
+          unzip $(ls)
+          cd fonts
+          mkdir out
+          docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c
+          zip -r JetBrainsMono-Nerdfont-$GITHUB_REF.zip out
       - name: Upload to GH releases
         uses: actions/upload-release-asset@v1
         env:
