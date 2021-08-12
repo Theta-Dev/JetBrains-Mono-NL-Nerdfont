@@ -15,11 +15,13 @@ jobs:
           mkdir out
       - name: Build fonts
         run: |
-          docker run -v $(pwd)/fonts/ttf:/in -v $(pwd)/fonts/out:/out nerdfonts/patcher -c --no-progressbars
+          docker run -v $(pwd)/fonts/ttf:/in -v $(pwd)/fonts/out:/out nerdfonts/patcher -c -q
       - name: Package
+        if: succeeded() || failed()
         run: |
           zip -r "JetBrainsMono-Nerdfont-$GITHUB_REF.zip" fonts/out
       - name: Upload to GH releases
+        if: succeeded() || failed()
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
