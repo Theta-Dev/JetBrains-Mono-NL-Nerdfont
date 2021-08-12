@@ -6,14 +6,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Build fonts
+      - name: Donwload original
         run: |
           curl -s https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest | grep "browser_download_url.*zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
           unzip $(ls)
           cd fonts
+          find ttf -type f -name JetBrainsMono-\* -exec rm {} \;
           mkdir out
+      - name: Build fonts
+        run: |
           docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c --no-progressbars
-          zip -r JetBrainsMono-Nerdfont-$GITHUB_REF.zip out
+      - name: Package
+        run: |
+          zip -r "JetBrainsMono-Nerdfont-$GITHUB_REF.zip" out
       - name: Upload to GH releases
         uses: actions/upload-release-asset@v1
         env:
