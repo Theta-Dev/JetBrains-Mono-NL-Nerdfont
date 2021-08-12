@@ -12,7 +12,7 @@ jobs:
           unzip $(ls)
           cd fonts
           mkdir out
-          docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c
+          docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c --no-progressbars
           zip -r JetBrainsMono-Nerdfont-$GITHUB_REF.zip out
       - name: Upload to GH releases
         uses: actions/upload-release-asset@v1
