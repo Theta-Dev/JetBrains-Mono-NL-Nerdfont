@@ -18,13 +18,13 @@ jobs:
           docker run -v $(pwd)/fonts/ttf:/in -v $(pwd)/fonts/out:/out nerdfonts/patcher -c -q || true
       - name: Package
         run: |
-          zip -r "JetBrainsMono-Nerdfont-$GITHUB_REF.zip" fonts/out
+          zip -r JetBrainsMono-Nerdfont.zip $(pwd)/fonts/out
       - name: Upload to GH releases
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./JetBrainsMono-Nerdfont-${{ env.GITHUB_REF }}.zip
-          asset_name: JetBrainsMono-Nerdfont-${{ env.GITHUB_REF }}.zip
+          asset_path: ./JetBrainsMono-Nerdfont.zip
+          asset_name: JetBrainsMono-Nerdfont.zip
           asset_content_type: application/zip
