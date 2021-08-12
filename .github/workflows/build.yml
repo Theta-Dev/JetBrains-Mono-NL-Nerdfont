@@ -15,10 +15,10 @@ jobs:
           mkdir out
       - name: Build fonts
         run: |
-          docker run -v $(pwd)/ttf:/in -v $(pwd)/out:/out nerdfonts/patcher -c --no-progressbars
+          docker run -v $(pwd)/fonts/ttf:/in -v $(pwd)/fonts/out:/out nerdfonts/patcher -c --no-progressbars
       - name: Package
         run: |
-          zip -r "JetBrainsMono-Nerdfont-$GITHUB_REF.zip" out
+          zip -r "JetBrainsMono-Nerdfont-$GITHUB_REF.zip" fonts/out
       - name: Upload to GH releases
         uses: actions/upload-release-asset@v1
         env:
